@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DatalorePublishingService">
+    <option name="notebookMapping">
+      <map>
+        <entry key="5347">
+          <value>
+            <map>
+              <entry key="xNTo4qc3R5Te27BPSkldED">
+                <value>
+                  <PublishedNotebookState>
+                    <option name="id" value="pnWbYpMimmNWarq8Xa2tl2" />
+                    <option name="link" value="https://view.datalore.io/notebook/pnWbYpMimmNWarq8Xa2tl2" />
+                    <option name="owner" value="xNTo4qc3R5Te27BPSkldED" />
+                  </PublishedNotebookState>
+                </value>
+              </entry>
+            </map>
+          </value>
+        </entry>
+        <entry key="32651">
+          <value>
+            <map>
+              <entry key="kcFVM4oRFII70FeKyvp4gJ">
+                <value>
+                  <PublishedNotebookState>
+                    <option name="id" value="8QpWcBdWhCSqj9w9MYGtyM" />
+                    <option name="link" value="https://view.datalore.io/notebook/8QpWcBdWhCSqj9w9MYGtyM" />
+                    <option name="owner" value="kcFVM4oRFII70FeKyvp4gJ" />
+                  </PublishedNotebookState>
+                </value>
+              </entry>
+              <entry key="xNTo4qc3R5Te27BPSkldED">
+                <value>
+                  <PublishedNotebookState>
+                    <option name="id" value="YlKfmz9Ran5eOVgMQAdGcR" />
+                    <option name="link" value="https://view.datalore.io/notebook/YlKfmz9Ran5eOVgMQAdGcR" />
+                    <option name="owner" value="xNTo4qc3R5Te27BPSkldED" />
+                    <option name="public" value="true" />
+                  </PublishedNotebookState>
+                </value>
+              </entry>
+            </map>
+          </value>
+        </entry>
+        <entry key="38434">
+          <value>
+            <map>
+              <entry key="kcFVM4oRFII70FeKyvp4gJ">
+                <value>
+                  <PublishedNotebookState>
+                    <option name="id" value="rd7T6Q2QHSnB8mjM9BaA2q" />
+                    <option name="link" value="https://view.datalore.io/notebook/rd7T6Q2QHSnB8mjM9BaA2q" />
+                    <option name="owner" value="kcFVM4oRFII70FeKyvp4gJ" />
+                    <option name="public" value="true" />
+                  </PublishedNotebookState>
+                </value>
+              </entry>
+              <entry key="xNTo4qc3R5Te27BPSkldED">
+                <value>
+                  <PublishedNotebookState>
+                    <option name="id" value="nzaU7jn2D1gHvFJhoPSfWg" />
+                    <option name="link" value="https://view.datalore.io/notebook/nzaU7jn2D1gHvFJhoPSfWg" />
+                    <option name="owner" value="xNTo4qc3R5Te27BPSkldED" />
+                    <option name="public" value="true" />
+                  </PublishedNotebookState>
+                </value>
+              </entry>
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
