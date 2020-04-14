@@ -53,4 +53,4 @@ class Linear_Regression:
 data = pd.read_csv("FINALspain_date.csv")
 
 Confirmed = Linear_Regression(data[["Date"]], np.log(data[["Confirmed"]]))
-Deaths = Linear_Regression(data[["Date"]][7:], np.log(data[["Confirmed"]][7:]))
+Deaths = Linear_Regression(data[["Date"]][7:], np.log(data[["Deaths"]][7:]))
