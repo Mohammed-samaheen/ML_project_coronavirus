@@ -29,6 +29,7 @@ class Linear_Regression:
         self.predictions
 
         plt.scatter(X_test, y_test, color='red', label='test data')
+        plt.scatter(X_train, y_train, color='blue', label='train data')
         plt.plot(X_test, self.predictions, linewidth=3, color="green", label='predictions')
         plt.xlabel(X_train.columns[0])
         plt.ylabel(y_train.columns[0])
@@ -44,16 +45,16 @@ class Linear_Regression:
 
         df = pd.DataFrame([self.MAE, self.MSE],
                           ['mean absolute error (MAE)', 'mean squared error (MSE)'], columns=['Result'])
-        print('{}\n'.format(df))
+        print('{}\n{}\n'.format(y_train.columns[0], df))
 
     def predict(self, value):
         return np.exp(self.lm.predict([[value]]))
 
 
-data = pd.read_csv("FINALspain_date.csv")
+data = pd.read_csv("FINALspain (1).csv")
 
-confirmed_data = train_test_split(data[["Date"]], np.log(data[["Confirmed"]]), test_size=0.25)
-deaths_data = train_test_split(data[["Date"]][7:], np.log(data[["Deaths"]][7:]), test_size=0.25)
+confirmed_data = train_test_split(data[["Date"]], np.log(data[["ConfirmedCom"]]), test_size=0.25)
+deaths_data = train_test_split(data[["Date"]][7:], np.log(data[["DeathsCom"]][7:]), test_size=0.25)
 
 Confirmed = Linear_Regression(confirmed_data)
 Deaths = Linear_Regression(deaths_data)
