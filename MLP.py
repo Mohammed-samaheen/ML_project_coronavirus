@@ -22,25 +22,27 @@ confirmed_data = train_test_split(data[["Date"]].values, data[["ConfirmedCom"]].
 
 
 
-deaths_data = train_test_split(data[["Date"]][7:], data[["DeathsCom"]][7:], test_size=0.25)
+deaths_data = train_test_split(data[["Date"]][7:].values, data[["DeathsCom"]][7:].values, test_size=0.25)
 
 #Confirmed = MLP(confirmed_data)
 #Deaths = MLP(deaths_data) to_numpy()
 
 
-split_data = confirmed_data
+split_data = deaths_data
 
-fig, subaxes = plt.subplots(4, 4, figsize=(11,8))
+fig, subaxes = plt.subplots(2, 4, figsize=(20,20))
 
-X_train, X_test, y_train, y_test = split_data
+X_train, X_test, y_train, y_test = confirmed_data
 
 #mlpreg = MLPRegressor (solver='lbfgs', alpha=0.01)
 
 mae = []
 mse = []
 
-for axisRow, activationFunction, in zip (subaxes, ['tanh', 'relu','logistic', 'identity']):
-    for alphas, axis in zip ([0.0001, 0.001, 1.0, 10], axisRow):
+print ('{ ',172541 ,' }')
+
+for axisRow, activationFunction, in zip (subaxes, ['relu', 'relu']):
+    for alphas, axis in zip ([0.0001, 0.1, 1.0, 10], axisRow):
         mlpreg = MLPRegressor (hidden_layer_sizes = [100],
                                 activation = activationFunction,
                                 alpha = alphas,
@@ -48,13 +50,17 @@ for axisRow, activationFunction, in zip (subaxes, ['tanh', 'relu','logistic', 'i
  
         mlpreg.fit (X_train, y_train.ravel())
         y_predict = mlpreg.predict(X_test)
-        axis.plot(X_test, y_predict, '^', markersize = 10)
-        axis.plot(X_train, y_train, 'o')
+        axis.plot(X_test, y_predict, 'o')
+        axis.plot(X_test, y_test, 'o')
         axis.set_xlabel('Input feature')
         axis.set_ylabel('Target value')
         axis.set_title( "al={}, act={}".format(alphas, activationFunction) )
       
-          
+        dx = np.array([50], int)
+        tempy =  mlpreg.predict(dx.reshape(1, -1))
+        
+        print (tempy, " ", tempy - 172541, " ", 100 - abs(1-(tempy / 172541 )) )
+         
         MAE = metrics.mean_absolute_error(y_test.ravel(), y_predict)
         MSE = metrics.mean_squared_error(y_test.ravel(), y_predict)
         
@@ -63,5 +69,5 @@ for axisRow, activationFunction, in zip (subaxes, ['tanh', 'relu','logistic', 'i
     
  #       plt.tight_layout()
 
-print (mae)
-print (mse)
+#print (mae)
+#print (mse)
