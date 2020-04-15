@@ -17,11 +17,10 @@ from sklearn.model_selection import train_test_split
 
 # Linear regression with log values
 class Linear_Regression:
-    def __init__(self, X, Y):
-        self.X = X
-        self.Y = Y
+    def __init__(self, split_data):
+        self.split_data = split_data
 
-        X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.25)
+        X_train, X_test, y_train, y_test = split_data
 
         self.lm = LinearRegression()
         self.lm.fit(X_train, y_train)
@@ -29,10 +28,11 @@ class Linear_Regression:
         self.predictions = self.lm.predict(X_test)
         self.predictions
 
-        plt.scatter(X_test, y_test, color='red')
-        plt.plot(X_test, self.predictions, linewidth=3, color="green")
+        plt.scatter(X_test, y_test, color='red', label='test data')
+        plt.plot(X_test, self.predictions, linewidth=3, color="green", label='predictions')
         plt.xlabel(X_train.columns[0])
         plt.ylabel(y_train.columns[0])
+        plt.legend()
         plt.show()
 
         sns.distplot((y_test - self.predictions))
@@ -52,5 +52,8 @@ class Linear_Regression:
 
 data = pd.read_csv("FINALspain_date.csv")
 
-Confirmed = Linear_Regression(data[["Date"]], np.log(data[["Confirmed"]]))
-Deaths = Linear_Regression(data[["Date"]][7:], np.log(data[["Deaths"]][7:]))
+confirmed_data = train_test_split(data[["Date"]], np.log(data[["Confirmed"]]), test_size=0.25)
+deaths_data = train_test_split(data[["Date"]][7:], np.log(data[["Deaths"]][7:]), test_size=0.25)
+
+Confirmed = Linear_Regression(confirmed_data)
+Deaths = Linear_Regression(deaths_data)
