@@ -21,6 +21,7 @@ class Linear_Regression:
         self.split_data = split_data
 
         X_train, X_test, y_train, y_test = split_data
+        print (X_train)
 
         self.lm = LinearRegression()
         self.lm.fit(X_train, y_train)
@@ -51,7 +52,7 @@ class Linear_Regression:
         return np.exp(self.lm.predict([[value]]))
 
 
-data = pd.read_csv("FINALspain (1).csv")
+data = pd.read_csv("FINALspain.csv")
 
 confirmed_data = train_test_split(data[["Date"]], np.log(data[["ConfirmedCom"]]), test_size=0.25)
 deaths_data = train_test_split(data[["Date"]][7:], np.log(data[["DeathsCom"]][7:]), test_size=0.25)
