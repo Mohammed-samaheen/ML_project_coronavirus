@@ -26,19 +26,27 @@ class Support_Vector_Regressor:
         X_test = np.array(X_test)
         y_test = np.array(y_test)
         
-        self.lm = SVR(kernel='rbf')
+        self.lm = SVR(kernel='poly', C=100, degree=4, epsilon=.1,
+               coef0=4)
         self.lm.fit(X_train, y_train)
         
-        
-        
-        print(self.lm.fit_status_)
+        print(len(self.lm.support_vectors_), len(X_test))
+
         self.predictions = self.lm.predict(X_test)
         
 
         plt.scatter(X_test.ravel(), y_test.ravel(), color='red', label='test data')
         plt.scatter(X_test.ravel(), self.predictions, color='brown', label='Predicted Values')
+        '''plt.scatter(,self.lm.support_vectors_,  color='white', label='Supporting Vectors',
+                    edgecolors='black')'''
         plt.scatter(X_train, y_train, color='blue', label='train data')
-        #plt.plot(X_test.ravel(), self.predictions, linewidth=3, color="green", label='predictions')
+        
+        sr = np.copy(self.predictions)
+        sx = np.copy(X_test.ravel())
+        sr = np.sort(sr)
+        sx = np.sort(sx)
+        
+        plt.plot(sx, sr, linewidth=3, color="green", label='predictions')
         plt.xlabel(X_train.columns[0])
         plt.ylabel(y_train.columns[0])
         plt.legend()
@@ -61,8 +69,8 @@ class Support_Vector_Regressor:
 
 data = pd.read_csv("FINALspain.csv")
 
-confirmed_data = train_test_split(data[["Date"]], np.log(data[["ConfirmedCom"]]), test_size=0.25)
-deaths_data = train_test_split(data[["Date"]][7:], np.log(data[["DeathsCom"]][7:]), test_size=0.25)
+confirmed_data = train_test_split(data[["Date"]], data[["ConfirmedCom"]], test_size=0.25)
+deaths_data = train_test_split(data[["Date"]][7:], data[["DeathsCom"]][7:], test_size=0.25)
 
 Confirmed = Support_Vector_Regressor(confirmed_data)
 Deaths = Support_Vector_Regressor(deaths_data)
