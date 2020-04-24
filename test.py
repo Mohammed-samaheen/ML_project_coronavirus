@@ -17,24 +17,28 @@ from sklearn.model_selection import train_test_split
 
 # Linear regression with log values
 
-def read_data():
+def read_data(test_size=0.10):
     file = pd.read_csv('./Data/sConfirmed.csv')
-    X, Y = (file['Date'], file['sConfirmed'])
-    x_verification, y_verification = (file['testDate'][:11], file['testConfirmed'][:11])
-    final_data = {'spainCon': (X, x_verification, Y, y_verification)}
+    x_train, x_test, y_train, y_test = train_test_split(file['Date'], file['sConfirmed'],
+                                                        test_size=test_size)
+    verification = (file['testDate'][:11], file['testConfirmed'][:11])
+    final_data = {'spainCon': (x_train, x_test, y_train, y_test, verification)}
 
     file = pd.read_csv('./Data/sDeaths.csv')
-    X, Y = (file['Date'], file['sDeaths'])
-    x_verification, y_verification = (file['testDate'][:10], file['testDeaths'][:10])
-    final_data['spainDea'] = (X, x_verification, Y, y_verification)
+    x_train, x_test, y_train, y_test = train_test_split(file['Date'], file['sDeaths'],
+                                                        test_size=test_size)
+    verification = (file['testDate'][:10], file['testDeaths'][:10])
+    final_data['spainDea'] = (x_train, x_test, y_train, y_test,verification)
 
     file = pd.read_csv('./Data/wConfirmed.csv')
-    X, Y = (file['Date'], file['wConfirmed'])
-    final_data['worldCon'] = (X, Y)
+    x_train, x_test, y_train, y_test = train_test_split(file['Date'], file['wConfirmed'],
+                                                        test_size=test_size)
+    final_data['worldCon'] = (x_train, x_test, y_train, y_test)
 
     file = pd.read_csv('./Data/wDeaths.csv')
-    X, Y = (file['Date'], file['wDeaths'])
-    final_data['worldDea'] = (X, Y)
+    x_train, x_test, y_train, y_test = train_test_split(file['Date'], file['wDeaths'],
+                                                        test_size=test_size)
+    final_data['worldDea'] = (x_train, x_test, y_train, y_test)
 
     return final_data
 
@@ -74,7 +78,7 @@ class Linear_Regression:
         return np.exp(self.lm.predict([[value]]))
 
 
-data = read_data(log=True)
+data = read_data()
 
 Confirmed = Linear_Regression(confirmed_data)
 Deaths = Linear_Regression(deaths_data)
