@@ -19,22 +19,22 @@ from sklearn.model_selection import train_test_split
 
 def read_data():
     file = pd.read_csv('./Data/sConfirmed.csv')
-    x_train, y_train = (file['Date'], file['sConfirmed'])
-    x_test, y_test = (file['testDate'][:11], file['testConfirmed'][:11])
-    final_data = {'spainCon': (x_train, x_test, y_train, y_test)}
+    X, Y = (file['Date'], file['sConfirmed'])
+    x_verification, y_verification = (file['testDate'][:11], file['testConfirmed'][:11])
+    final_data = {'spainCon': (X, x_verification, Y, y_verification)}
 
     file = pd.read_csv('./Data/sDeaths.csv')
-    x_train, y_train = (file['Date'], file['sDeaths'])
-    x_test, y_test = (file['testDate'][:10], file['testDeaths'][:10])
-    final_data['spainDea'] = (x_train, x_test, y_train, y_test)
+    X, Y = (file['Date'], file['sDeaths'])
+    x_verification, y_verification = (file['testDate'][:10], file['testDeaths'][:10])
+    final_data['spainDea'] = (X, x_verification, Y, y_verification)
 
     file = pd.read_csv('./Data/wConfirmed.csv')
-    x_train, y_train = (file['Date'], file['wConfirmed'])
-    final_data['worldCon'] = (x_train, y_train)
+    X, Y = (file['Date'], file['wConfirmed'])
+    final_data['worldCon'] = (X, Y)
 
     file = pd.read_csv('./Data/wDeaths.csv')
-    x_train, y_train = (file['Date'], file['wDeaths'])
-    final_data['worldDea'] = (x_train, y_train)
+    X, Y = (file['Date'], file['wDeaths'])
+    final_data['worldDea'] = (X, Y)
 
     return final_data
 
