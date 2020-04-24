@@ -28,7 +28,7 @@ def read_data(test_size=0.10):
     x_train, x_test, y_train, y_test = train_test_split(file[['Date']], file[['sDeaths']],
                                                         test_size=test_size)
     verification = (file[['testDate']][:10], file[['testDeaths']][:10])
-    final_data['spainDea'] = ((x_train, x_test, y_train, y_test),verification)
+    final_data['spainDea'] = ((x_train, x_test, y_train, y_test), verification)
 
     file = pd.read_csv('./Data/wConfirmed.csv')
     x_train, x_test, y_train, y_test = train_test_split(file[['Date']], file[['wConfirmed']],
@@ -48,6 +48,9 @@ class Linear_Regression:
         self.split_data = split_data
 
         X_train, X_test, y_train, y_test = split_data
+
+        y_train = np.log(y_train)
+        y_test = np.log(y_test)
 
         self.lm = LinearRegression()
         self.lm.fit(X_train, y_train)
