@@ -17,25 +17,15 @@ from sklearn.model_selection import train_test_split
 
 # Linear regression with log values
 
-def read_data(log=False):
+def read_data():
     file = pd.read_csv('./Data/sConfirmed.csv')
     x_train, y_train = (file['Date'], file['sConfirmed'])
     x_test, y_test = (file['testDate'][:11], file['testConfirmed'][:11])
-
-    if log:
-        y_train = np.log(y_train)
-        y_test = np.log(y_test)
-
     final_data = {'spainCon': (x_train, x_test, y_train, y_test)}
 
     file = pd.read_csv('./Data/sDeaths.csv')
     x_train, y_train = (file['Date'], file['sDeaths'])
     x_test, y_test = (file['testDate'][:10], file['testDeaths'][:10])
-
-    if log:
-        y_train = np.log(y_train)
-        y_test = np.log(y_test)
-
     final_data['spainDea'] = (x_train, x_test, y_train, y_test)
 
     file = pd.read_csv('./Data/wConfirmed.csv')
@@ -84,8 +74,7 @@ class Linear_Regression:
         return np.exp(self.lm.predict([[value]]))
 
 
-data = read_data()
-deaths_data = train_test_split(data[["Date"]][7:], np.log(data[["DeathsCom"]][7:]), test_size=0.25)
+data = read_data(log=True)
 
 Confirmed = Linear_Regression(confirmed_data)
 Deaths = Linear_Regression(deaths_data)
