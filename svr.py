@@ -4,7 +4,6 @@ import numpy as np
 import seaborn as sns
 from sklearn import metrics
 from sklearn.svm import SVR
-from sklearn.model_selection import train_test_split
 
 
 # Palestine Polytechnic university (PPU)  Machine Learning course project
@@ -17,16 +16,48 @@ from sklearn.model_selection import train_test_split
 # and Support Vector Regression (SVR)
 
 # Support Vector Regression (SVR):
+
+def read_data(log = False):
+    file = pd.read_csv('./Data/sConfirmed.csv')
+    x_train, y_train = (file['Date'], file['sConfirmed'])
+    x_test, y_test = (file['testDate'][:11], file['testConfirmed'][:11])
+
+    if log:
+        y_train = np.log(y_train)
+        y_test = np.log(y_test)
+
+    final_data = {'spainCon': (x_train, x_test, y_train, y_test)}
+    
+    file = pd.read_csv('./Data/sDeaths.csv')
+    x_train, y_train = (file['Date'], file['sDeaths'])
+    x_test, y_test = (file['testDate'][:10], file['testDeaths'][:10])
+
+    if log:
+        y_train = np.log(y_train)
+        y_test = np.log(y_test)
+
+    final_data['spainDea'] = (x_train, x_test, y_train, y_test)
+
+    file = pd.read_csv('./Data/wConfirmed.csv')
+    x_train, y_train = (file['Date'], file['wConfirmed'])
+    final_data['worldCon'] = (x_train, y_train)
+
+    file = pd.read_csv('./Data/wDeaths.csv')
+    x_train, y_train = (file['Date'], file['wDeaths'])
+    final_data['worldDea'] = (x_train, y_train)
+
+    return final_data
+
 class Support_Vector_Regressor:
     def __init__(self, split_data):
         self.split_data = split_data
-
-        X_train, X_test, y_train, y_test = split_data
-
-        X_test = np.array(X_test)
-        y_test = np.array(y_test)
         
-        self.lm = SVR(kernel='poly', C=100, degree=4, epsilon=.1,
+        X_train, X_test, y_train, y_test = split_data
+        
+        
+        print("X_test is:\n", y_train)
+        
+        self.lm = SVR(kernel='poly', C=100, degree=2, epsilon=.1,
                coef0=4)
         self.lm.fit(X_train, y_train)
         
@@ -46,7 +77,7 @@ class Support_Vector_Regressor:
         sr = np.sort(sr)
         sx = np.sort(sx)
         
-        plt.plot(sx, sr, linewidth=3, color="green", label='predictions')
+        plt.plot(sx, sr, linewidth = 3, color="green", label='predictions')
         plt.xlabel(X_train.columns[0])
         plt.ylabel(y_train.columns[0])
         plt.legend()
@@ -66,11 +97,7 @@ class Support_Vector_Regressor:
     def predict(self, value):
         return np.exp(self.lm.predict([[value]]))
 
+data = read_data()
 
-data = pd.read_csv("FINALspain.csv")
-
-confirmed_data = train_test_split(data[["Date"]], data[["ConfirmedCom"]], test_size=0.25)
-deaths_data = train_test_split(data[["Date"]][7:], data[["DeathsCom"]][7:], test_size=0.25)
-
-Confirmed = Support_Vector_Regressor(confirmed_data)
-Deaths = Support_Vector_Regressor(deaths_data)
+Confirmed = Support_Vector_Regressor(data['spainCon'])
+Deaths = Support_Vector_Regressor(data['spainDea'])
