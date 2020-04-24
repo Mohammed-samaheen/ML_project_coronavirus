@@ -4,7 +4,7 @@ import numpy as np
 import seaborn as sns
 from sklearn import metrics
 from sklearn.svm import SVR
-
+from sklearn.model_selection import train_test_split
 
 # Palestine Polytechnic university (PPU)  Machine Learning course project
 # Authors: 1. Ameer Takrouri
@@ -17,78 +17,63 @@ from sklearn.svm import SVR
 
 # Support Vector Regression (SVR):
 
-def read_data(log = False):
+def read_data(test_size=0.10):
     file = pd.read_csv('./Data/sConfirmed.csv')
-    x_train, y_train = (file['Date'], file['sConfirmed'])
-    x_test, y_test = (file['testDate'][:11], file['testConfirmed'][:11])
+    x_train, x_test, y_train, y_test = train_test_split(file[['Date']], file[['sConfirmed']],
+                                                        test_size=test_size)
+    verification = (file[['testDate']][:11], file[['testConfirmed']][:11])
+    final_data = {'spainCon': ((x_train, x_test, y_train, y_test), verification)}
 
-    if log:
-        y_train = np.log(y_train)
-        y_test = np.log(y_test)
-
-    final_data = {'spainCon': (x_train, x_test, y_train, y_test)}
-    
     file = pd.read_csv('./Data/sDeaths.csv')
-    x_train, y_train = (file['Date'], file['sDeaths'])
-    x_test, y_test = (file['testDate'][:10], file['testDeaths'][:10])
-
-    if log:
-        y_train = np.log(y_train)
-        y_test = np.log(y_test)
-
-    final_data['spainDea'] = (x_train, x_test, y_train, y_test)
+    x_train, x_test, y_train, y_test = train_test_split(file[['Date']], file[['sDeaths']],
+                                                        test_size=test_size)
+    verification = (file[['testDate']][:10], file[['testDeaths']][:10])
+    final_data['spainDea'] = ((x_train, x_test, y_train, y_test), verification)
 
     file = pd.read_csv('./Data/wConfirmed.csv')
-    x_train, y_train = (file['Date'], file['wConfirmed'])
-    final_data['worldCon'] = (x_train, y_train)
+    x_train, x_test, y_train, y_test = train_test_split(file[['Date']], file[['wConfirmed']],
+                                                        test_size=test_size)
+    final_data['worldCon'] = (x_train, x_test, y_train, y_test)
 
     file = pd.read_csv('./Data/wDeaths.csv')
-    x_train, y_train = (file['Date'], file['wDeaths'])
-    final_data['worldDea'] = (x_train, y_train)
+    x_train, x_test, y_train, y_test = train_test_split(file[['Date']], file[['wDeaths']],
+                                                        test_size=test_size)
+    final_data['worldDea'] = (x_train, x_test, y_train, y_test)
 
     return final_data
 
 class Support_Vector_Regressor:
     def __init__(self, split_data):
+        
         self.split_data = split_data
         
         X_train, X_test, y_train, y_test = split_data
         
+        self.lm = SVR(kernel= 'poly', C=100, degree=3, epsilon=.1, coef0=4)
         
-        print("X_test is:\n", y_train)
-        
-        self.lm = SVR(kernel='poly', C=100, degree=2, epsilon=.1,
-               coef0=4)
         self.lm.fit(X_train, y_train)
-        
-        print(len(self.lm.support_vectors_), len(X_test))
 
         self.predictions = self.lm.predict(X_test)
         
 
-        plt.scatter(X_test.ravel(), y_test.ravel(), color='red', label='test data')
-        plt.scatter(X_test.ravel(), self.predictions, color='brown', label='Predicted Values')
-        '''plt.scatter(,self.lm.support_vectors_,  color='white', label='Supporting Vectors',
-                    edgecolors='black')'''
+        plt.scatter(X_test, y_test, color='red', label='test data')
+        plt.scatter(X_test, self.predictions, color='brown', label='Predicted Values')
         plt.scatter(X_train, y_train, color='blue', label='train data')
+        '''plt.scatter(self.lm.support_vectors_, y_train, color='white', label='Supporting Vectors',
+                    edgecolors='black')'''
         
-        sr = np.copy(self.predictions)
-        sx = np.copy(X_test.ravel())
-        sr = np.sort(sr)
-        sx = np.sort(sx)
-        
-        plt.plot(sx, sr, linewidth = 3, color="green", label='predictions')
+        plt.plot(X_test, self.predictions, linewidth = 3, color="green", label='predictions')
         plt.xlabel(X_train.columns[0])
         plt.ylabel(y_train.columns[0])
         plt.legend()
         plt.show()
-
-        sns.distplot((y_test.ravel() - self.predictions))
+        
+        sns.distplot((np.array(y_test) - self.predictions))
         plt.title('univariate distribution for ' + y_train.columns[0])
         plt.show()
 
-        self.MAE = metrics.mean_absolute_error(y_test.ravel(), self.predictions)
-        self.MSE = metrics.mean_squared_error(y_test.ravel(), self.predictions)
+        self.MAE = metrics.mean_absolute_error(y_test, self.predictions)
+        self.MSE = metrics.mean_squared_error(y_test, self.predictions)
 
         df = pd.DataFrame([self.MAE, self.MSE],
                           ['mean absolute error (MAE)', 'mean squared error (MSE)'], columns=['Result'])
@@ -99,5 +84,5 @@ class Support_Vector_Regressor:
 
 data = read_data()
 
-Confirmed = Support_Vector_Regressor(data['spainCon'])
-Deaths = Support_Vector_Regressor(data['spainDea'])
+Confirmed = Support_Vector_Regressor(data['spainCon'][0])
+Deaths = Support_Vector_Regressor(data['spainDea'][0])
