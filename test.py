@@ -16,3 +16,6 @@ data = read_data()
 
 Confirmed = Linear_Regression(data['spainCon'][0])
 Deaths = Linear_Regression(data['spainDea'][0])
+
+wConfirmed=Linear_Regression(data['worldCon'])
+wDeaths = Linear_Regression(data['worldDea'])
