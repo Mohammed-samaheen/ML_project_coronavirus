@@ -16,6 +16,29 @@ from sklearn.model_selection import train_test_split
 # and  Support Vector Regression (SVR)
 
 # Linear regression with log values
+
+def read_data():
+    file = pd.read_csv('./Data/sConfirmed.csv')
+    x_train, y_train = (file['Date'], file['sConfirmed'])
+    x_test, y_test = (file['testDate'][:11], file['testConfirmed'][:11])
+    final_data = {'spainCon': (x_train, x_test, y_train, y_test)}
+
+    file = pd.read_csv('./Data/sDeaths.csv')
+    x_train, y_train = (file['Date'], file['sDeaths'])
+    x_test, y_test = (file['testDate'][:10], file['testDeaths'][:10])
+    final_data['spainDea'] = (x_train, x_test, y_train, y_test)
+
+    file = pd.read_csv('./Data/wConfirmed.csv')
+    x_train, y_train = (file['Date'], file['wConfirmed'])
+    final_data['worldCon'] = (x_train, y_train)
+
+    file = pd.read_csv('./Data/wDeaths.csv')
+    x_train, y_train = (file['Date'], file['wDeaths'])
+    final_data['worldDea'] = (x_train, y_train)
+
+    return final_data
+
+
 class Linear_Regression:
     def __init__(self, split_data):
         self.split_data = split_data
@@ -51,9 +74,7 @@ class Linear_Regression:
         return np.exp(self.lm.predict([[value]]))
 
 
-data = pd.read_csv("FINALspain (1).csv")
-
-confirmed_data = train_test_split(data[["Date"]], np.log(data[["ConfirmedCom"]]), test_size=0.25)
+data = read_data()
 deaths_data = train_test_split(data[["Date"]][7:], np.log(data[["DeathsCom"]][7:]), test_size=0.25)
 
 Confirmed = Linear_Regression(confirmed_data)
