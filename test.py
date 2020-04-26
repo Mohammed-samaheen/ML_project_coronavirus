@@ -1,5 +1,6 @@
 from util.ModifiedData import read_data
 from models.Linear_Regression_model import Linear_Regression
+from models.MLP_model import MLP_Regression
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -28,6 +29,9 @@ def calculate_verification(x, y, title):
 
 data = read_data()
 
+Confirmed = MLP_Regression(data['spainCon'][0], plot=True, allDetails=False)
+
+'''
 Confirmed = Linear_Regression(data['spainCon'][0], plot=False)
 Deaths = Linear_Regression(data['spainDea'][0], plot=False)
 
@@ -45,3 +49,4 @@ calculate_verification(data['spainCon'][1][0]['testDate'],
                        data['spainCon'][1][1], 'spain Confirmed')
 calculate_verification(data['spainDea'][1][0]['testDate'],
                        data['spainDea'][1][1], 'spain Deaths')
+'''
