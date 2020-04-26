@@ -1,8 +1,7 @@
 from util.ModifiedData import read_data
-from models.Linear_Regression_model import Linear_Regression
+from models.Linear_Regression_model import Linear_Regression, Linear_summary
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn import metrics
 
 
@@ -16,8 +15,9 @@ from sklearn import metrics
 
 # Linear regression with log values
 
-def calculate_verification(x, y, title):
-    predict_verification = Confirmed.predict(np.reshape(x.to_numpy(), (x.shape[0], 1)))
+def verification_MSE(x, y, obj, title):
+    y = np.log(y)
+    predict_verification = np.log(obj.predict(np.reshape(x.to_numpy(), (x.shape[0], 1))))
     MAE = metrics.mean_absolute_error(y, predict_verification)
     MSE = metrics.mean_squared_error(y, predict_verification)
 
@@ -28,20 +28,28 @@ def calculate_verification(x, y, title):
 
 data = read_data()
 
-Confirmed = Linear_Regression(data['spainCon'][0], plot=False)
-Deaths = Linear_Regression(data['spainDea'][0], plot=False)
+spain_confirmed = Linear_Regression(data['spainCon'][0], plot=False)
+spain_deaths = Linear_Regression(data['spainDea'][0], plot=False)
 
-wConfirmed = Linear_Regression(data['worldCon'], plot=False)
-wDeaths = Linear_Regression(data['worldDea'], plot=False)
+world_confirmed = Linear_Regression(data['worldCon'], plot=False)
+world_deaths = Linear_Regression(data['worldDea'], plot=False)
 
-plt.plot(data['spainCon'][0][1], Confirmed.predictions, linewidth=3, color="green", label='spredictions')
-plt.plot(data['worldCon'][1], wConfirmed.predictions, linewidth=3, color="red", label='wpredictions')
-plt.scatter(data['spainCon'][0][0], np.log(data['spainCon'][0][2]), color='blue', label='train data')
-plt.legend()
-plt.show()
+# summary plot of confirmed and deaths in spain and the world
+summary = Linear_summary(data)
+summary.confirmed_summary(spain_confirmed, world_confirmed)
+summary.deaths_summary(spain_deaths, world_deaths)
 
-# verification
-calculate_verification(data['spainCon'][1][0]['testDate'],
-                       data['spainCon'][1][1], 'spain Confirmed')
-calculate_verification(data['spainDea'][1][0]['testDate'],
-                       data['spainDea'][1][1], 'spain Deaths')
+# test the verification data
+verification_MSE(data['spainCon'][1][0]['testDate'],
+                 data['spainCon'][1][1], spain_confirmed, 'spain Confirmed')
+verification_MSE(data['spainDea'][1][0]['testDate'],
+                 data['spainDea'][1][1], spain_deaths, 'spain Deaths')
+
+# Predict the future value of confirmed and deaths
+print('On the {} day the number of confirmed is {}'.format(
+    60,(spain_confirmed.predict([[60]])-world_confirmed.predict([[60]]))/2
+))
+print('On the {} day the number of deaths is {}'.format(
+    60,(spain_deaths.predict([[60]])-world_deaths.predict([[60]]))/2
+))
+
