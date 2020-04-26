@@ -12,7 +12,8 @@ def read_data(test_size=0.10):
     file = pd.read_csv('./Data/sDeaths.csv')
     x_train, x_test, y_train, y_test = train_test_split(file[['Date']], file[['sDeaths']],
                                                         test_size=test_size)
-    verification = (file[['testDate']][:10], file[['testDeaths']][:10])
+
+    verification = (file[['testDate']][:9], file[['testDeaths']][:9])
     final_data['spainDea'] = ((x_train, x_test, y_train, y_test), verification)
 
     file = pd.read_csv('./Data/wConfirmed.csv')
