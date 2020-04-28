@@ -90,5 +90,5 @@ data = read_data()
 
 
 
-Confirmed = Support_Vector_Regressor(data['worldCon'])
-Deaths = Support_Vector_Regressor(data['worldDea'])
+Confirmed = Support_Vector_Regressor(data['spainCon'][0])
+Deaths = Support_Vector_Regressor(data['spainDea'][0])
