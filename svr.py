@@ -49,7 +49,7 @@ class Support_Vector_Regressor:
         
         X_train, X_test, y_train, y_test = split_data
         
-        self.lm = SVR(kernel= 'poly', C=40, degree=4 ,epsilon=.001, coef0=4)
+        self.lm = SVR(kernel= 'poly', C= 110, degree=4 ,epsilon=.01, coef0=4)
         
         #To sort the test data to show in an apprpriate way:
         X_test = pd.DataFrame.sort_index(X_test, axis=0)
