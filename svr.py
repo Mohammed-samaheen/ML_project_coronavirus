@@ -86,9 +86,9 @@ class Support_Vector_Regressor:
     def predict(self, value):
         return np.exp(self.lm.predict([[value]]))
 
+#########################################################################################################
+        
 data = read_data()
-
-
 
 Confirmed = Support_Vector_Regressor(data['spainCon'][0])
 Deaths = Support_Vector_Regressor(data['spainDea'][0])
