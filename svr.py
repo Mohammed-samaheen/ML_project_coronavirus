@@ -15,7 +15,7 @@ from sklearn.model_selection import train_test_split
 # following models: Linear regression with log values, Artificial Neutral Network (MLP Regressor)
 # and Support Vector Regression (SVR)
 
-# Support Vector Regression (SVR):
+# Support Vector Regression (SVR) By Wisam Alhroub:
 
 def read_data(test_size=0.10):
     file = pd.read_csv('./Data/sConfirmed.csv')
@@ -49,19 +49,25 @@ class Support_Vector_Regressor:
         
         X_train, X_test, y_train, y_test = split_data
         
-        self.lm = SVR(kernel= 'poly', C=100, degree=3, epsilon=.1, coef0=4)
+        self.lm = SVR(kernel= 'poly', C= 30, degree=4 ,epsilon=.01, coef0=1)
+        
+        #To sort the test data to show in an apprpriate way:
+        X_test = pd.DataFrame.sort_index(X_test, axis=0)
+        y_test = pd.DataFrame.sort_index(y_test, axis=0)
         
         self.lm.fit(X_train, y_train)
 
         self.predictions = self.lm.predict(X_test)
         
-
         plt.scatter(X_test, y_test, color='red', label='test data')
         plt.scatter(X_test, self.predictions, color='brown', label='Predicted Values')
         plt.scatter(X_train, y_train, color='blue', label='train data')
         '''plt.scatter(self.lm.support_vectors_, y_train, color='white', label='Supporting Vectors',
                     edgecolors='black')'''
         
+        
+        
+            
         plt.plot(X_test, self.predictions, linewidth = 3, color="green", label='predictions')
         plt.xlabel(X_train.columns[0])
         plt.ylabel(y_train.columns[0])
@@ -84,5 +90,7 @@ class Support_Vector_Regressor:
 
 data = read_data()
 
-Confirmed = Support_Vector_Regressor(data['spainCon'][0])
-Deaths = Support_Vector_Regressor(data['spainDea'][0])
+
+
+Confirmed = Support_Vector_Regressor(data['worldCon'])
+Deaths = Support_Vector_Regressor(data['worldDea'])
