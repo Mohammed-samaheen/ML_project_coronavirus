@@ -17,7 +17,7 @@ from sklearn.model_selection import train_test_split
 
 # Support Vector Regression (SVR) By Wisam Alhroub:
 
-def read_data(test_size=0.10):
+def read_data(test_size=0.20):
     file = pd.read_csv('./Data/sConfirmed.csv')
     x_train, x_test, y_train, y_test = train_test_split(file[['Date']], file[['sConfirmed']],
                                                         test_size=test_size)
@@ -49,7 +49,7 @@ class Support_Vector_Regressor:
         
         X_train, X_test, y_train, y_test = split_data
         
-        self.lm = SVR(kernel= 'poly', C= 30, degree=4 ,epsilon=.01, coef0=1)
+        self.lm = SVR(kernel= 'poly', C = 100, degree=4 ,epsilon=.001, coef0=4)
         
         #To sort the test data to show in an apprpriate way:
         X_test = pd.DataFrame.sort_index(X_test, axis=0)
@@ -83,11 +83,10 @@ class Support_Vector_Regressor:
                           ['mean absolute error (MAE)', 'mean squared error (MSE)'], columns=['Result'])
         print('{}\n{}\n'.format(y_train.columns[0], df))
 
-    def predict(self, value):
-        return np.exp(self.lm.predict([[value]]))
+    
 
 #########################################################################################################
-        
+
 data = read_data()
 
 Confirmed = Support_Vector_Regressor(data['spainCon'][0])
