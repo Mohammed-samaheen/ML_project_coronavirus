@@ -5,6 +5,7 @@ Created on Wed Apr 15 21:07:05 2020
 @author: AnA
 """
 
+from sklearn import metrics
 import matplotlib.pyplot as plt
 from sklearn.neural_network import MLPRegressor
 
@@ -13,25 +14,26 @@ class MLP_Regression:
     def __init__(self, spainData, worldData, plot=False, allDetails=False):
         
         spainData = [x.values for x in spainData]
+        self.y_test = spainData[3]
         worldData = [y.values for y in worldData]
         
         self.predictionSpain = self.bestPredect(spainData)
         self.predictionWorld = self.bestPredect(worldData)
         
-        print ((self.predictionSpain, self.predictionWorld))
         self.standardizedData()
-        print ((self.predictionSpain, self.predictionWorld))
         
-        self.prediction = self.getApproximation ()
-        print (self.prediction)
-                    
+        print(metrics.mean_absolute_error(self.y_test.ravel(), self.predictionSpain))
+        
+        for x in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]:
+            self.prediction = self.getApproximation (spainFactor = x, worldFactor = (1 - x))
+            print(x *100,"% spain: ", metrics.mean_absolute_error(self.y_test.ravel(), self.prediction))                    
         
     def getApproximation (self, spainFactor = 0.75, worldFactor = 0.25):
         
         factoredSpain = [x * spainFactor for x in self.predictionSpain]
         factoredWorld = [x * worldFactor for x in self.predictionWorld]
 
-        return [int(a + b) for a, b in zip (factoredSpain, factoredWorld)]
+        return [int(a + b) for (a, b) in zip (factoredSpain, factoredWorld)]
         
     def standardizedData (self):
         
