@@ -15,18 +15,18 @@ class MLP_Regression:
         
         spainData = [x.values for x in spainData]
         self.y_test = spainData[3]
-        worldData = [y.values for y in worldData]
         
+        worldData = [y.values for y in worldData]
+           
         self.predictionSpain = self.bestPredect(spainData)
         self.predictionWorld = self.bestPredect(worldData)
-        
+         
         self.standardizedData()
         
-        print(metrics.mean_absolute_error(self.y_test.ravel(), self.predictionSpain))
-        
-        for x in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]:
-            self.prediction = self.getApproximation (spainFactor = x, worldFactor = (1 - x))
-            print(x *100,"% spain: ", metrics.mean_absolute_error(self.y_test.ravel(), self.prediction))                    
+        if allDetails:
+            for x in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]:
+                self.prediction = self.getApproximation (spainFactor = x, worldFactor = (1 - x))
+                print("Using:", x *100,"% from spain: ", metrics.mean_absolute_error(self.y_test.ravel(), self.prediction))                    
         
     def getApproximation (self, spainFactor = 0.75, worldFactor = 0.25):
         
@@ -50,12 +50,12 @@ class MLP_Regression:
         
         X_train, X_test, y_train, y_test = dataSplit
         
-        mlpreg = MLPRegressor (hidden_layer_sizes = [1000],
+        mlpreg = MLPRegressor (hidden_layer_sizes = [7],
                                alpha = 0.0001,
+                               activation = 'relu',
                                solver = 'lbfgs')
      
         mlpreg.fit (X_train, y_train.ravel())
-        
         y_predict = mlpreg.predict(X_test)
         y_predict = [abs (int(x)) for x in y_predict]
         
