@@ -51,7 +51,7 @@ class Support_Vector_Regressor:
         
         self.lm = SVR(kernel= 'poly', C= 30, degree=4 ,epsilon=.01, coef0=1)
         
-        #To sort the test data to show in an apprpriate way:
+        
         X_test = pd.DataFrame.sort_index(X_test, axis=0)
         y_test = pd.DataFrame.sort_index(y_test, axis=0)
         
@@ -66,8 +66,6 @@ class Support_Vector_Regressor:
                     edgecolors='black')'''
         
         
-        
-            
         plt.plot(X_test, self.predictions, linewidth = 3, color="green", label='predictions')
         plt.xlabel(X_train.columns[0])
         plt.ylabel(y_train.columns[0])
