@@ -5,57 +5,64 @@ Created on Wed Apr 15 21:07:05 2020
 @author: AnA
 """
 
-import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
-import seaborn as sns
-from sklearn import metrics
 from sklearn.neural_network import MLPRegressor
-from sklearn.model_selection import train_test_split
 
 
 class MLP_Regression:
-    def __init__(self, split_data, plot=False, allDetails=False):
-        self.split_data = split_data
+    def __init__(self, spainData, worldData, plot=False, allDetails=False):
+        
+        spainData = [x.values for x in spainData]
+        worldData = [y.values for y in worldData]
+        
+        self.predictionSpain = self.bestPredect(spainData)
+        self.predictionWorld = self.bestPredect(worldData)
+        
+        print ((self.predictionSpain, self.predictionWorld))
+        self.standardizedData()
+        print ((self.predictionSpain, self.predictionWorld))
+        
+        self.prediction = self.getApproximation ()
+        print (self.prediction)
+                    
+        
+    def getApproximation (self, spainFactor = 0.75, worldFactor = 0.25):
+        
+        factoredSpain = [x * spainFactor for x in self.predictionSpain]
+        factoredWorld = [x * worldFactor for x in self.predictionWorld]
 
-        self.X_train, self.X_test, self.y_train, self.y_test = split_data
+        return [int(a + b) for a, b in zip (factoredSpain, factoredWorld)]
         
-        self.X_train = self.X_train.values
-        self.X_test = self.X_test.values
-        self.y_train = self.y_train.values
-        self.y_test = self.y_test.values
+    def standardizedData (self):
         
-        print (len(self.X_train))
-        print (len(self.X_test))
-        print (len(self.y_train))
-        print (len(self.y_test))
+        minLin = min (len(self.predictionSpain), len(self.predictionWorld))
+       
+        if (len(self.predictionSpain) > len(self.predictionWorld)):
+            self.predictionWorld = self.predictionWorld + self.predictionSpain[minLin:]
+        else:
+            self.predictionSpain = self.predictionSpain [ : minLin]
+            self.predictionWorld = self.predictionWorld [ : minLin]
+            
         
-        self.bestPredect(plot)
+    def bestPredect (self, dataSplit):
         
+        X_train, X_test, y_train, y_test = dataSplit
         
-        
-    def bestPredect (self, plot):
-        
-        mlpreg = MLPRegressor (hidden_layer_sizes = [4],
-                               activation = 'relu',
+        mlpreg = MLPRegressor (hidden_layer_sizes = [1000],
                                alpha = 0.0001,
                                solver = 'lbfgs')
      
-        mlpreg.fit (self.X_train, self.y_train.ravel())
-        self.y_predict = mlpreg.predict(self.X_test)
-        print (self.X_test)
-        print (self.y_predict)
-        print (self.y_test.ravel())
+        mlpreg.fit (X_train, y_train.ravel())
         
-        if plot:
-            self.carve()
+        y_predict = mlpreg.predict(X_test)
+        y_predict = [abs (int(x)) for x in y_predict]
+        
+        return y_predict
             
     def carve(self):
         plt.scatter(self.X_test, self.y_predict, color='red', label='test data')
         plt.scatter(self.X_train, self.y_train, color='blue', label='train data')
         plt.plot(self.X_test, self.y_predict, linewidth=3, color="green", label='predictions')
-        plt.xlabel(self.X_train.columns[0])
-        plt.ylabel(self.y_train.columns[0])
         plt.legend()
         plt.show()
             

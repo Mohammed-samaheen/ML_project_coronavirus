@@ -27,9 +27,11 @@ def calculate_verification(x, y, title):
     print('verification of {}\n{}\n'.format(title, df))
 
 
-data = read_data()
 
-Confirmed = MLP_Regression(data['spainCon'][0], plot=True, allDetails=False)
+data = read_data(0.2)
+
+spainConfirmed = MLP_Regression(data['spainCon'][0], data['worldDea'], plot=True, allDetails=False)
+
 
 '''
 Confirmed = Linear_Regression(data['spainCon'][0], plot=False)
