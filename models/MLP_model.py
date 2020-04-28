@@ -5,7 +5,6 @@ Created on Wed Apr 15 21:07:05 2020
 @author: Amir Hashem Altakroori
 """
 
-from sklearn import metrics
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.neural_network import MLPRegressor
