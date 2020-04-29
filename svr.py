@@ -54,7 +54,7 @@ class Support_Vector_Regressor:
         
         X_train, X_test, y_train, y_test = split_data
         
-        self.lm = SVR(kernel= 'poly', C= 200, degree=5 ,epsilon=.0001, coef0=4)
+        self.lm = SVR(kernel= 'poly', C= 300, degree=5 ,epsilon=.1, coef0=5)
         
         #To sort the test data to show in an apprpriate way:
         X_test = pd.DataFrame.sort_index(X_test, axis=0)
@@ -85,6 +85,7 @@ class Support_Vector_Regressor:
         print('{}\n{}\n'.format(y_train.columns[0], df))
         
         '''---------------------------------------------'''
+        
 #########################################################################################################
 
 data = Support_Vector_Regressor.read_data()
