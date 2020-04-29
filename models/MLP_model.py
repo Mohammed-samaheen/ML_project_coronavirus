@@ -21,16 +21,14 @@ class MLP_Regression:
         self.__dateCountry = np.concatenate((countryData[0], countryData[1]))
         self.__valueCountry = np.concatenate((countryData[2], countryData[3]), axis=None)
         
+        self.__countryModel =  self.__bestFit (countryData)           
+        
+        self.__worldModel = None
         self.worldData = worldData
         if  self.worldData is not None:
             self.worldData = [x.values for x in  self.worldData]
             self.__worldModel = self.__bestFit ( self.worldData)    
         
-            
-        self.__countryModel =  self.__bestFit (countryData)           
-        self.__worldModel = None
-            
-            
     def __bestFit (self, dataSplit):
         X_train, X_test, y_train, y_test = dataSplit
         mlpreg = MLPRegressor (hidden_layer_sizes = [7],
@@ -58,9 +56,8 @@ class MLP_Regression:
         
     def __getApproximation (self, countryData, worldData, countryFactor = 0.80, worldFactor = 0.20):
         
-        factoredCountry = [x * countryFactor for x in countryData]
-        factoredWorld = [x * worldFactor for x in worldData]
-
+        factoredCountry = countryFactor * countryData
+        factoredWorld = worldData * worldFactor 
         return [int(a + b) for (a, b) in zip (factoredCountry, factoredWorld)]
           
     def __carve(self, X_test, prediction):
