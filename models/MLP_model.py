@@ -25,8 +25,7 @@ class MLP_Regression:
         if worldData is not None:
             worldData = [x.values for x in worldData]
             self.__usingWorld = True    
-        
-            
+
         self.__countryModel =  self.__bestFit (countryData)           
         self.__worldModel = None
         if worldData is not None:
@@ -43,8 +42,7 @@ class MLP_Regression:
         y_train = np.concatenate((y_train, y_test), axis=None)
         mlpreg.fit (X_train, y_train)
         return mlpreg
-        
-        
+
     def bestPredect (self, X_test, plot=False):
         predict = self.__countryModel.predict (X_test)
         if self.__usingWorld:
@@ -56,9 +54,9 @@ class MLP_Regression:
             self.__carve (X_test, predict)
             
         return predict
-        
+
     def __getApproximation (self, countryData, worldData, countryFactor = 0.80, worldFactor = 0.20):
-        
+
         factoredCountry = [x * countryFactor for x in countryData]
         factoredWorld = [x * worldFactor for x in worldData]
 
@@ -72,4 +70,4 @@ class MLP_Regression:
         plt.plot(xList, yList, linewidth=3, color="black", label='predictions')
         plt.legend()
         plt.show()
-            
+

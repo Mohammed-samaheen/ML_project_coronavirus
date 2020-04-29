@@ -1,3 +1,7 @@
+
+# @author:Mohammed Khaled Samaheen
+# This file contains the Linear Regression Class model
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -49,6 +53,16 @@ class Linear_Regression:
         plt.title('univariate distribution for ' + self.y_train.columns[0])
         plt.show()
 
+    def linear_verification(self, x, y, title):
+        y = np.log(y)
+        predict_verification = np.log(self.predict(np.reshape(x.to_numpy(), (x.shape[0], 1))))
+        MAE = metrics.mean_absolute_error(y, predict_verification)
+        MSE = metrics.mean_squared_error(y, predict_verification)
+
+        df = pd.DataFrame([MAE, MSE],
+                          ['mean absolute error (MAE)', 'mean squared error (MSE)'], columns=['Result'])
+        print('verification of {}\n{}\n'.format(title, df))
+
 class Linear_summary:
     def __init__(self,data):
         self.data=data
@@ -80,3 +94,4 @@ class Linear_summary:
         plt.title('spain Deaths')
         plt.legend()
         plt.show()
+
