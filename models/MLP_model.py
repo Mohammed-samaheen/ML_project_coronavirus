@@ -21,16 +21,15 @@ class MLP_Regression:
         self.__dateCountry = np.concatenate((countryData[0], countryData[1]))
         self.__valueCountry = np.concatenate((countryData[2], countryData[3]), axis=None)
         
-        self.__usingWorld = False
-        if worldData is not None:
-            worldData = [x.values for x in worldData]
-            self.__usingWorld = True    
+        self.worldData = worldData
+        if  self.worldData is not None:
+            self.worldData = [x.values for x in  self.worldData]
+            self.__worldModel = self.__bestFit ( self.worldData)    
         
             
         self.__countryModel =  self.__bestFit (countryData)           
         self.__worldModel = None
-        if worldData is not None:
-            self.__worldModel = self.__bestFit (worldData)
+            
             
     def __bestFit (self, dataSplit):
         X_train, X_test, y_train, y_test = dataSplit
@@ -47,7 +46,7 @@ class MLP_Regression:
         
     def bestPredect (self, X_test, plot=False):
         predict = self.__countryModel.predict (X_test)
-        if self.__usingWorld:
+        if self.worldData is not None:
             predicitWorld = self.__worldModel.predict (X_test)
             predict = self.__getApproximation (countryData = predict, worldData = predicitWorld)
             
