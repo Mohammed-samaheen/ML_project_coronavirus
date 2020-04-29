@@ -27,10 +27,13 @@ class MLP_Regression:
             self.__usingWorld = True    
 
         self.__countryModel =  self.__bestFit (countryData)           
+        
         self.__worldModel = None
-        if worldData is not None:
-            self.__worldModel = self.__bestFit (worldData)
-            
+        self.worldData = worldData
+        if  self.worldData is not None:
+            self.worldData = [x.values for x in  self.worldData]
+            self.__worldModel = self.__bestFit ( self.worldData)    
+        
     def __bestFit (self, dataSplit):
         X_train, X_test, y_train, y_test = dataSplit
         mlpreg = MLPRegressor (hidden_layer_sizes = [7],
@@ -45,7 +48,7 @@ class MLP_Regression:
 
     def bestPredect (self, X_test, plot=False):
         predict = self.__countryModel.predict (X_test)
-        if self.__usingWorld:
+        if self.worldData is not None:
             predicitWorld = self.__worldModel.predict (X_test)
             predict = self.__getApproximation (countryData = predict, worldData = predicitWorld)
             
@@ -60,6 +63,8 @@ class MLP_Regression:
         factoredCountry = [x * countryFactor for x in countryData]
         factoredWorld = [x * worldFactor for x in worldData]
 
+        factoredCountry = countryFactor * countryData
+        factoredWorld = worldData * worldFactor 
         return [int(a + b) for (a, b) in zip (factoredCountry, factoredWorld)]
           
     def __carve(self, X_test, prediction):
