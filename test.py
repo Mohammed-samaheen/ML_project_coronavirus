@@ -27,16 +27,14 @@ mlpConfirmedPrediction = mlpSpainConfirmed.bestPredect((data['spainCon'][1][0]['
 confirmedDiference = [(a - b) for a, b in zip(mlpConfirmedPrediction, data['spainCon'][1][1].values)]
 print(confirmedDiference)
 print(metrics.mean_absolute_error(mlpConfirmedPrediction, data['spainCon'][1][1]))
-print ("MSE: ", metrics.mean_absolute_error(mlpConfirmedPrediction, data['spainCon'][1][1]) )
-
+print("MSE: ", metrics.mean_absolute_error(mlpConfirmedPrediction, data['spainCon'][1][1]))
 
 mlpSpainDeath = MLP_Regression(data['spainDea'][0], allDetails=False)
 mlpDeathPrediction = mlpSpainDeath.bestPredect((data['spainDea'][1][0]['testDate']).values.reshape(-1, 1), plot=True)
 deathDiference = [(a - b) for a, b in zip(mlpDeathPrediction, data['spainCon'][1][1].values)]
 print(deathDiference)
 print(metrics.mean_absolute_error(mlpDeathPrediction, data['spainDea'][1][1]))
-print ("MSE: ", metrics.mean_absolute_error(mlpDeathPrediction, data['spainDea'][1][1]) )
-
+print("MSE: ", metrics.mean_absolute_error(mlpDeathPrediction, data['spainDea'][1][1]))
 
 Confirmed = Linear_Regression(data['spainCon'][0], plot=False)
 Deaths = Linear_Regression(data['spainDea'][0], plot=False)
@@ -67,10 +65,8 @@ print('On the {} day the number of deaths is {}'.format(
     60, (spain_deaths.predict([[60]]) - world_deaths.predict([[60]])) / 2
 ))
 
-
 # verification
-calculate_verification(data['spainCon'][1][0]['testDate'],
-                       data['spainCon'][1][1], 'spain Confirmed')
-calculate_verification(data['spainDea'][1][0]['testDate'],
-                       data['spainDea'][1][1], 'spain Deaths')
-
+spain_confirmed.linear_verification(data['spainCon'][1][0]['testDate'],
+                                    data['spainCon'][1][1], 'spain Confirmed')
+spain_confirmed.linear_verification(data['spainDea'][1][0]['testDate'],
+                                    data['spainDea'][1][1], 'spain Deaths')
