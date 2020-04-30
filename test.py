@@ -65,8 +65,4 @@ print('On the {} day the number of deaths is {}'.format(
     60, (spain_deaths.predict([[60]]) - world_deaths.predict([[60]])) / 2
 ))
 
-# verification
-spain_confirmed.linear_verification(data['spainCon'][1][0]['testDate'],
-                                    data['spainCon'][1][1], 'spain Confirmed')
-spain_confirmed.linear_verification(data['spainDea'][1][0]['testDate'],
-                                    data['spainDea'][1][1], 'spain Deaths')
+

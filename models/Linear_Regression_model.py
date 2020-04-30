@@ -29,8 +29,8 @@ class Linear_Regression:
             self.carve()
             self.distribution()
 
-        self.MAE = metrics.mean_absolute_error(self.y_test, self.predictions)
-        self.MSE = metrics.mean_squared_error(self.y_test, self.predictions)
+        self.MAE = metrics.mean_absolute_error(np.exp(self.y_test), np.exp(self.predictions))
+        self.MSE = metrics.mean_squared_error(np.exp(self.y_test), np.exp(self.predictions))
 
         df = pd.DataFrame([self.MAE, self.MSE],
                           ['mean absolute error (MAE)', 'mean squared error (MSE)'], columns=['Result'])
