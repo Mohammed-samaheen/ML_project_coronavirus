@@ -1,22 +1,19 @@
 from util.ModifiedData import read_data
 from models.MLP_model import MLP_Regression
-
+from models.Support_Vector_Regression_model import Support_Vector_Regressor
 from models.Linear_Regression_model import Linear_Regression, Linear_summary
-
-import numpy as np
-import pandas as pd
 from sklearn import metrics
 
 # palestine polytechnic university(PPU)  Machine Learning course project
-# authors:Ameer Takrouri,Wisam Alhroub and Mohammed Samaheen
+# authors: Ameer Takrouri, Wisam Alhroub and Mohammed Samaheen
 
 #   This university project is concerned with the study of
 # predict the number of infected people and the number of deaths of coronavirus.By Useing the
 # following models : Linear regression with log values,Artificial Neutral Network (MLPRegressor)
 # and  Support Vector Regression (SVR)
 
-# Linear regression with log values
 
+# MLP Regressor Model:
 
 data = read_data(0.2)
 
@@ -38,6 +35,8 @@ print("MSE: ", metrics.mean_absolute_error(mlpDeathPrediction, data['spainDea'][
 
 Confirmed = Linear_Regression(data['spainCon'][0], plot=False)
 Deaths = Linear_Regression(data['spainDea'][0], plot=False)
+
+###################################################################################################################
 
 # Linear Regression model
 spain_confirmed = Linear_Regression(data['spainCon'][0], plot=False)
@@ -63,6 +62,24 @@ print('On the {} day the number of confirmed is {}'.format(
 ))
 print('On the {} day the number of deaths is {}'.format(
     60, (spain_deaths.predict([[60]]) - world_deaths.predict([[60]])) / 2
-))
+,'\n\n'))
 
+###################################################################################################################
+
+# Support Vector Regression Model:
+
+Spain_Confirmed = Support_Vector_Regressor(data['spainCon'][0])
+Spain_Deaths = Support_Vector_Regressor(data['spainDea'][0])
+World_Confirmed = Support_Vector_Regressor(data['worldCon'])
+World_Deaths = Support_Vector_Regressor(data['worldDea'])
+
+Spain_Confirmed.plotResults("Spain's Confirmed Cases")
+Spain_Deaths.plotResults("Spain's Death Cases")
+World_Confirmed.plotResults("World's Confirmed Cases")
+World_Deaths.plotResults("World's Death Cases")
+
+Spain_Confirmed.SVRVerification(data['spainCon'][1][0]['testDate'],
+                                data['spainCon'][1][1], "Spain's Confirmed Cases")
+Spain_Deaths.SVRVerification(data['spainDea'][1][0]['testDate'], 
+                             data['spainDea'][1][1], "Spain's Death Cases")
 

@@ -1,78 +1,72 @@
+'''
+    Auther: Wisam Alhroub
+    This file contains the Support Vector Regression Model
+'''
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from sklearn import metrics
 from sklearn.svm import SVR
-from util.ModifiedData import read_data
-
-# Palestine Polytechnic university (PPU)  Machine Learning course project
-# Authors: 1. Ameer Takrouri
-#          2. Wisam Alhroub
-#          3. Mohammed Samaheen
-# This university project is concerned with the study of
-# predicting the number of infected people and the number of deaths of the coronavirus. By Using the
-# following models: Linear regression with log values, Artificial Neutral Network (MLP Regressor)
-# and Support Vector Regression (SVR)
-
-# Support Vector Regression (SVR) By Wisam Alhroub:
 
 #########################################################################################################
 
 class Support_Vector_Regressor:
     
-    
-    
-    '''---------------------------------------------'''
-    
     def __init__(self, split_data, verify=False):
         
         self.split_data = split_data
-        
-        X_train, X_test, y_train, y_test = split_data
-        
-        
-        
-        
+        self.X_train, self.X_test, self.y_train, self.y_test = split_data
+
         self.lm = SVR(kernel= 'poly', C= 250, degree=3 ,epsilon=.001, coef0=5)
         
         #To sort the test data to show in an apprpriate way:
-        X_test = pd.DataFrame.sort_index(X_test, axis=0)
-        y_test = pd.DataFrame.sort_index(y_test, axis=0)
+        self.X_test = pd.DataFrame.sort_index(self.X_test, axis=0)
+        self.y_test = pd.DataFrame.sort_index(self.y_test, axis=0)
         
-        self.lm.fit(X_train, y_train)
-
-        self.predictions = self.lm.predict(X_test)
+        self.lm.fit(self.X_train, self.y_train)
         
-        plt.scatter(X_test, y_test, color='red', label='test data')
-        plt.scatter(X_test, self.predictions, color='brown',  label='Predicted Values')
-        plt.scatter(X_train, y_train, color='blue', label='train data')
-        plt.plot(X_test, self.predictions, linewidth = 3, color="green", label='predictions')
-        plt.xlabel(X_train.columns[0])
-        plt.ylabel(y_train.columns[0])
+        self.predictions = self.lm.predict(self.X_test)
+        
+    '''---------------------------------------------'''
+        
+    def predictValues(self, value):
+        
+        return self.lm.predict(value)
+    
+    '''---------------------------------------------'''
+        
+    def plotResults(self, title, showDist = False):
+        
+        plt.scatter(self.X_test, self.y_test, color='red', label='test data')
+        plt.scatter(self.X_test, self.predictions, color='brown', marker='^',  label='Predicted Values')
+        plt.scatter(self.X_train, self.y_train, color='blue', label='train data')
+        plt.plot(self.X_test, self.predictions, linewidth = 3, color="green", label='predictions')
+        plt.title(title)
+        plt.xlabel(self.X_train.columns[0])
+        plt.ylabel(self.y_train.columns[0])
         plt.legend()
         plt.show()
         
-        sns.distplot((np.array(y_test) - self.predictions))
-        plt.title('univariate distribution for ' + y_train.columns[0])
-        plt.show()
-
-        self.MAE = metrics.mean_absolute_error(y_test, self.predictions)
-        self.MSE = metrics.mean_squared_error(y_test, self.predictions)
-
-        df = pd.DataFrame([self.MAE, self.MSE],
-                          ['mean absolute error (MAE)', 'mean squared error (MSE)'], columns=['Result'])
-        print('{}\n{}\n'.format(y_train.columns[0], df))
+        if showDist:
+            sns.distplot((np.array(self.y_test) - self.predictions))
+            plt.title( 'Univariate distribution for ' + self.y_train.columns[0])
+            plt.show()
         
-        '''---------------------------------------------'''
+    '''---------------------------------------------'''
+        
+    def SVRVerification(self, x, y, title):
+        
+        verification = self.predictValues(np.reshape(x.to_numpy(), (x.shape[0], 1)))
+        self.MAE = (metrics.mean_absolute_error(y, verification))
+        self.MSE = (metrics.mean_squared_error(y, verification))
+
+        MSAE = pd.DataFrame([self.MAE, self.MSE],
+                          ['mean absolute error (MAE)', 'mean squared error (MSE)'], columns=['Result'])
+        print('Support Vector Regressor Verification of', title, ':\n' , MSAE)
+
+    '''---------------------------------------------'''
         
 #########################################################################################################
-
-data = Support_Vector_Regressor.read_data()
-
-Spain_Confirmed = Support_Vector_Regressor(data['spainCon'][0])
-Spain_Deaths = Support_Vector_Regressor(data['spainDea'][0])
-
-World_Confirmed = Support_Vector_Regressor(data['worldCon'])
-world_Deaths = Support_Vector_Regressor(data['worldDea'])
 
