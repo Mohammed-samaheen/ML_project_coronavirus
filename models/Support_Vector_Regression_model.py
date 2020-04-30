@@ -1,6 +1,6 @@
 '''
     Auther: Wisam Alhroub
-    This file contains the Support Vector Regression Model
+    This file consists of the Support Vector Regression Model
 '''
 
 import pandas as pd
@@ -19,7 +19,7 @@ class Support_Vector_Regressor:
         self.split_data = split_data
         self.X_train, self.X_test, self.y_train, self.y_test = split_data
 
-        self.lm = SVR(kernel= 'poly', C= 250, degree=3 ,epsilon=.001, coef0=5)
+        self.lm = SVR(kernel= 'poly', C= 150, degree=3 ,epsilon=.001, coef0=5)
         
         #To sort the test data to show in an apprpriate way:
         self.X_test = pd.DataFrame.sort_index(self.X_test, axis=0)
@@ -31,9 +31,9 @@ class Support_Vector_Regressor:
         
     '''---------------------------------------------'''
         
-    def predictValues(self, value):
+    def predictValues(self, day):
         
-        return self.lm.predict(value)
+        return self.lm.predict(day)
     
     '''---------------------------------------------'''
         
@@ -64,7 +64,7 @@ class Support_Vector_Regressor:
 
         MSAE = pd.DataFrame([self.MAE, self.MSE],
                           ['mean absolute error (MAE)', 'mean squared error (MSE)'], columns=['Result'])
-        print('Support Vector Regressor Verification of', title, ':\n' , MSAE)
+        print('Support Vector Regressor Verification of', title,':\n' , MSAE)
 
     '''---------------------------------------------'''
         

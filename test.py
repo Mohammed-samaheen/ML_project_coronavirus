@@ -3,6 +3,7 @@ from models.MLP_model import MLP_Regression
 from models.Support_Vector_Regression_model import Support_Vector_Regressor
 from models.Linear_Regression_model import Linear_Regression, Linear_summary
 from sklearn import metrics
+import numpy as np
 
 # palestine polytechnic university(PPU)  Machine Learning course project
 # authors: Ameer Takrouri, Wisam Alhroub and Mohammed Samaheen
@@ -82,4 +83,9 @@ Spain_Confirmed.SVRVerification(data['spainCon'][1][0]['testDate'],
                                 data['spainCon'][1][1], "Spain's Confirmed Cases")
 Spain_Deaths.SVRVerification(data['spainDea'][1][0]['testDate'], 
                              data['spainDea'][1][1], "Spain's Death Cases")
+
+print("\nOn the ", 65,'th day, the Confirmed Cases of Spain are: '
+      , Spain_Confirmed.predictValues([[65]])
+      ,'\nAnd the Death Cases at that day are: '
+      , Spain_Deaths.predictValues([[65]]), sep='')
 
