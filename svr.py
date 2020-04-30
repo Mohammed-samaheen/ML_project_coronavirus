@@ -54,7 +54,10 @@ class Support_Vector_Regressor:
         
         X_train, X_test, y_train, y_test = split_data
         
-        self.lm = SVR(kernel= 'poly', C= 250, degree=5 ,epsilon=.001, coef0=5)
+        
+        
+        
+        self.lm = SVR(kernel= 'poly', C= 250, degree=3 ,epsilon=.001, coef0=5)
         
         #To sort the test data to show in an apprpriate way:
         X_test = pd.DataFrame.sort_index(X_test, axis=0)
@@ -65,7 +68,7 @@ class Support_Vector_Regressor:
         self.predictions = self.lm.predict(X_test)
         
         plt.scatter(X_test, y_test, color='red', label='test data')
-        plt.scatter(X_test, self.predictions, color='brown', label='Predicted Values')
+        plt.scatter(X_test, self.predictions, color='brown',  label='Predicted Values')
         plt.scatter(X_train, y_train, color='blue', label='train data')
         plt.plot(X_test, self.predictions, linewidth = 3, color="green", label='predictions')
         plt.xlabel(X_train.columns[0])
