@@ -14,25 +14,44 @@ import numpy as np
 # and  Support Vector Regression (SVR)
 
 
-# MLP Regressor Model:
 
 data = read_data(0.2)
 
-mlpSpainConfirmed = MLP_Regression(data['spainCon'][0], allDetails=False)
-mlpConfirmedPrediction = mlpSpainConfirmed.bestPredect((data['spainCon'][1][0]['testDate']).values.reshape(-1, 1),
-                                                       plot=True)
+# MLP Regressor Model:
 
-confirmedDiference = [(a - b) for a, b in zip(mlpConfirmedPrediction, data['spainCon'][1][1].values)]
-print(confirmedDiference)
-print(metrics.mean_absolute_error(mlpConfirmedPrediction, data['spainCon'][1][1]))
-print("MSE: ", metrics.mean_absolute_error(mlpConfirmedPrediction, data['spainCon'][1][1]))
+''' Confirmed model starts '''
 
+print ("\n\nConfirmed in Spain by: Multi-Layer Perceptron Regressor (MLP Regressor) Model.")
+
+# MLP Regressor Model to predict the Confirmed in Spain
+mlpSpainConfirmed = MLP_Regression(data['spainCon'][0], data['spainCon'][0], allDetails=False)
+mlpConfirmedPrediction = mlpSpainConfirmed.best_predect((data['spainCon'][1][0]['testDate']).values.reshape(-1, 1), plot=True)
+
+# Print Mean Absolute error
+print ("MAE: ", metrics.mean_absolute_error(mlpConfirmedPrediction, data['spainCon'][1][1]))
+
+# Print Mean Squared Error
+print ("MSE: ", metrics.mean_squared_error(mlpConfirmedPrediction, data['spainCon'][1][1]))
+
+''' Confirmed model ends '''
+
+''' Death model starts '''
+
+print ("\n\nDeath in Spain by: Multi-Layer Perceptron Regressor (MLP Regressor) Model.")
+
+# MLP Regressor Model to predict the Death in Spain
 mlpSpainDeath = MLP_Regression(data['spainDea'][0], allDetails=False)
-mlpDeathPrediction = mlpSpainDeath.bestPredect((data['spainDea'][1][0]['testDate']).values.reshape(-1, 1), plot=True)
-deathDiference = [(a - b) for a, b in zip(mlpDeathPrediction, data['spainCon'][1][1].values)]
-print(deathDiference)
-print(metrics.mean_absolute_error(mlpDeathPrediction, data['spainDea'][1][1]))
-print("MSE: ", metrics.mean_absolute_error(mlpDeathPrediction, data['spainDea'][1][1]))
+
+# Print Mean Squared Error
+mlpDeathPrediction = mlpSpainDeath.best_predect((data['spainDea'][1][0]['testDate']).values.reshape(-1, 1), plot=True)
+
+# Print Mean Absolute error
+print("MAE: ", metrics.mean_absolute_error(mlpDeathPrediction, data['spainDea'][1][1]))
+
+# Print Mean Squared Error
+print("MSE: ", metrics.mean_squared_error(mlpDeathPrediction, data['spainDea'][1][1]))
+
+''' Death model ends '''
 
 Confirmed = Linear_Regression(data['spainCon'][0], plot=False)
 Deaths = Linear_Regression(data['spainDea'][0], plot=False)
