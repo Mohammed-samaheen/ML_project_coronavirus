@@ -4,7 +4,7 @@ Created on Wed Apr 15 21:07:05 2020
 
 @author: Amir Hashem Altakroori
 
-This file contains the Multi-Layer Perceptron Regressor (MLP Regressor) Class
+This file contains the Multi-Layer Perception Regressor (MLP Regressor) Class
 
 """
 

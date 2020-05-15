@@ -1,4 +1,3 @@
-
 # @author:Mohammed Khaled Samaheen
 # This file contains the Linear Regression Class model
 
@@ -62,9 +61,10 @@ class Linear_Regression:
                           ['mean absolute error (MAE)', 'mean squared error (MSE)'], columns=['Result'])
         print('verification of {}\n{}\n'.format(title, df))
 
+
 class Linear_summary:
-    def __init__(self,data):
-        self.data=data
+    def __init__(self, data):
+        self.data = data
 
     def confirmed_summary(self, Confirmed, wConfirmed):
         plt.plot(self.data['spainCon'][0][1], Confirmed.predictions, linewidth=3, color="green",
@@ -74,7 +74,8 @@ class Linear_summary:
         plt.scatter(self.data['spainCon'][1][0]['testDate'],
                     np.log(Confirmed.predict(np.reshape(self.data['spainCon'][1][0]['testDate'].to_numpy(), (11, 1)))),
                     color='black', marker='v', label='spain prediction point')
-        plt.plot(self.data['worldCon'][1], wConfirmed.predictions, linewidth=3, color="red", label='world predictions line')
+        plt.plot(self.data['worldCon'][1], wConfirmed.predictions, linewidth=3, color="red",
+                 label='world predictions line')
         plt.scatter(self.data['spainCon'][0][0], np.log(self.data['spainCon'][0][2]), color='blue', label='train data')
         plt.title('spain Confirmed')
         plt.legend()
@@ -88,9 +89,9 @@ class Linear_summary:
         plt.scatter(self.data['spainDea'][1][0]['testDate'],
                     np.log(Deaths.predict(np.reshape(self.data['spainDea'][1][0]['testDate'].to_numpy(), (9, 1)))),
                     color='black', marker='v', label='spain prediction point')
-        plt.plot(self.data['worldDea'][1], wDeaths.predictions, linewidth=3, color="red", label='world predictions line')
+        plt.plot(self.data['worldDea'][1], wDeaths.predictions, linewidth=3, color="red",
+                 label='world predictions line')
         plt.scatter(self.data['spainDea'][0][0], np.log(self.data['spainDea'][0][2]), color='blue', label='train data')
         plt.title('spain Deaths')
         plt.legend()
         plt.show()
-
