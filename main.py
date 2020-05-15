@@ -26,15 +26,15 @@ print(OKBLUE+'Multi-Layer Perception -MLP-\n'+
 print("\n\nConfirmed in Spain by: Multi-Layer Perceptron Regressor (MLP Regressor) Model.")
 
 # MLP Regressor Model to predict the Confirmed in Spain
-mlpSpainConfirmed = MLP_Regression(data['spainCon'][0], data['spainCon'][0], allDetails=False)
+mlpSpainConfirmed = MLP_Regression(data['spainCon'][0], data['spainCon'][0], allDetails=False,itr_num=5000)
 mlpConfirmedPrediction = mlpSpainConfirmed.best_predect((data['spainCon'][1][0]['testDate']).values.reshape(-1, 1),
                                                         plot=True)
 
 # Print Mean Absolute error
-print("MAE: ", metrics.mean_absolute_error(mlpConfirmedPrediction, data['spainCon'][1][1]))
+print(WARNING+f"MAE: {metrics.mean_absolute_error(mlpConfirmedPrediction, data['spainCon'][1][1])}"+ENDC)
 
 # Print Mean Squared Error
-print("MSE: ", metrics.mean_squared_error(mlpConfirmedPrediction, data['spainCon'][1][1]))
+print(WARNING+f"MSE: {metrics.mean_squared_error(mlpConfirmedPrediction, data['spainCon'][1][1])}"+ENDC)
 
 ''' Confirmed model ends '''
 
@@ -43,16 +43,17 @@ print("MSE: ", metrics.mean_squared_error(mlpConfirmedPrediction, data['spainCon
 print("\n\nDeath in Spain by: Multi-Layer Perceptron Regressor (MLP Regressor) Model.")
 
 # MLP Regressor Model to predict the Death in Spain
-mlpSpainDeath = MLP_Regression(data['spainDea'][0], allDetails=False)
+mlpSpainDeath = MLP_Regression(data['spainDea'][0], allDetails=False,itr_num=1000)
 
 # Print Mean Squared Error
 mlpDeathPrediction = mlpSpainDeath.best_predect((data['spainDea'][1][0]['testDate']).values.reshape(-1, 1), plot=True)
 
 # Print Mean Absolute error
-print("MAE: ", metrics.mean_absolute_error(mlpDeathPrediction, data['spainDea'][1][1]))
+print(WARNING+f"MAE:  {metrics.mean_absolute_error(mlpDeathPrediction, data['spainDea'][1][1])}"+ENDC)
+
 
 # Print Mean Squared Error
-print("MSE: ", metrics.mean_squared_error(mlpDeathPrediction, data['spainDea'][1][1]))
+print(WARNING+f"MSE:  {metrics.mean_squared_error(mlpDeathPrediction, data['spainDea'][1][1])}"+ENDC)
 
 ''' Death model ends '''
 

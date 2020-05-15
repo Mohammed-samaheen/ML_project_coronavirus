@@ -11,6 +11,8 @@ This file contains the Multi-Layer Perception Regressor (MLP Regressor) Class
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.neural_network import MLPRegressor
+from sklearn.utils.testing import ignore_warnings
+from sklearn.exceptions import ConvergenceWarning
 
 
 class MLP_Regression:
@@ -44,7 +46,7 @@ class MLP_Regression:
         Plot the given data          
     """
     
-    def __init__(self, countryData, worldData = None, allDetails=False):
+    def __init__(self, countryData, worldData = None, allDetails=False,itr_num=100):
         """
         Parameters
         ----------
@@ -57,7 +59,7 @@ class MLP_Regression:
         """    
         
         countryData = [x.values for x in countryData]
-        
+        self.itr_num = itr_num
         ''' Use test data in prediction '''
         self.__dateCountry = np.concatenate((countryData[0], countryData[1]))
         self.__valueCountry = np.concatenate((countryData[2], countryData[3]), axis=None)
@@ -68,6 +70,8 @@ class MLP_Regression:
         ''' process second dataset if it is exist '''
         self.__worldModel = None
         self.worldData = worldData
+
+
         if  self.worldData is not None:
             self.worldData = [x.values for x in  self.worldData]
             
@@ -77,17 +81,19 @@ class MLP_Regression:
             
             ''' fitting data in second country model '''
             self.__worldModel = self.__best_fit ( self.worldData, "tanh" )
-        
+
+    @ignore_warnings(category=ConvergenceWarning)
     def __best_fit (self, dataSplit, actv = 'tanh'):
+        simplefilter(action='ignore', category=FutureWarning)
         X_train, X_test, y_train, y_test = dataSplit
         mlpreg = MLPRegressor (hidden_layer_sizes = [7],
                                alpha = 0.0001,
                                activation = actv,
-                               solver = 'lbfgs')
-        
+                               solver = 'lbfgs') # max_iter=self.itr_num
+
         X_train = np.concatenate((X_train, X_test))
         y_train = np.concatenate((y_train, y_test), axis=None)
-        mlpreg.fit (X_train, y_train)
+        mlpreg.fit (X_train, y_train.ravel())
         return mlpreg
 
     def best_predect (self, X_test, plot=False):
