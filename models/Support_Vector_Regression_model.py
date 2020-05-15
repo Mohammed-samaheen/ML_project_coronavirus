@@ -25,7 +25,7 @@ class Support_Vector_Regressor:
         self.X_test = pd.DataFrame.sort_index(self.X_test, axis=0)
         self.y_test = pd.DataFrame.sort_index(self.y_test, axis=0)
 
-        self.lm.fit(self.X_train, self.y_train)
+        self.lm.fit(self.X_train.values, self.y_train.values.ravel())
 
         self.predictions = self.lm.predict(self.X_test)
 

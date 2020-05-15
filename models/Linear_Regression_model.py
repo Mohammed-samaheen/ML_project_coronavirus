@@ -22,7 +22,6 @@ class Linear_Regression:
         self.lm.fit(self.X_train, self.y_train)
 
         self.predictions = self.lm.predict(self.X_test)
-        self.predictions
 
         if plot:
             self.carve()

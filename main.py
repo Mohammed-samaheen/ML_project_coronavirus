@@ -87,6 +87,7 @@ print('\n'+OKBLUE+'Support Vector Regression\n'+
 
 Spain_Confirmed = Support_Vector_Regressor(data['spainCon'][0])
 Spain_Deaths = Support_Vector_Regressor(data['spainDea'][0])
+
 World_Confirmed = Support_Vector_Regressor(data['worldCon'])
 World_Deaths = Support_Vector_Regressor(data['worldDea'])
 
