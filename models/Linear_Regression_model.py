@@ -125,7 +125,7 @@ class Linear_summary:
         plt.scatter(self.data['spainCon'][1][0]['testDate'],
                     np.log(self.data['spainCon'][1][1]), color='orange', marker='^', label='verification data')
         plt.scatter(self.data['spainCon'][1][0]['testDate'],
-                    np.log(Confirmed.predict(np.reshape(self.data['spainCon'][1][0]['testDate'].to_numpy(), (11, 1)))),
+                    np.log(Confirmed.predict(np.reshape(self.data['spainCon'][1][0]['testDate'].to_numpy(), (10, 1)))),
                     color='black', marker='v', label='spain prediction point')
         plt.plot(self.data['worldCon'][1], wConfirmed.predictions, linewidth=3, color="red",
                  label='world predictions line')

@@ -13,17 +13,19 @@ def read_data(test_size=0.10):
     file = pd.read_csv('./Data/sConfirmed.csv')
     x_train, x_test, y_train, y_test = train_test_split(file[['Date']], file[['sConfirmed']],
                                                         test_size=test_size)
-    verification = (file[['testDate']][:11], file[['testConfirmed']][:11])
+    tem = file[file["testDate"].notnull()]
+    verification = (tem[['testDate']], tem[['testConfirmed']])
     final_data = {'spainCon': ((x_train, x_test, y_train, y_test), verification)}
-    last_day_of_confirmed = int(np.max([file[['Date']].max(), file[['testDate']][:11].max()]))
+    last_day_of_confirmed = int(np.max([file[['Date']].max(), tem[['testDate']].max()]))
 
     # sDeaths.csv
     file = pd.read_csv('./Data/sDeaths.csv')
     x_train, x_test, y_train, y_test = train_test_split(file[['Date']], file[['sDeaths']],
                                                         test_size=test_size)
-    verification = (file[['testDate']][:9], file[['testDeaths']][:9])
+    tem = file[file["testDate"].notnull()]
+    verification = (tem[['testDate']], tem[['testDeaths']])
     final_data['spainDea'] = ((x_train, x_test, y_train, y_test), verification)
-    last_day_of_deaths = int(np.max([file[['testDate']][:9].max(), file[['Date']].max()]))
+    last_day_of_deaths = int(np.max([tem[['testDate']].max(), file[['Date']].max()]))
 
     # wConfirmed.csv
     file = pd.read_csv('./Data/wConfirmed.csv')
