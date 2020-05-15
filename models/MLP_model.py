@@ -84,12 +84,11 @@ class MLP_Regression:
 
     @ignore_warnings(category=ConvergenceWarning)
     def __best_fit (self, dataSplit, actv = 'tanh'):
-        simplefilter(action='ignore', category=FutureWarning)
         X_train, X_test, y_train, y_test = dataSplit
         mlpreg = MLPRegressor (hidden_layer_sizes = [7],
                                alpha = 0.0001,
                                activation = actv,
-                               solver = 'lbfgs') # max_iter=self.itr_num
+                               solver = 'lbfgs', max_iter=self.itr_num)
 
         X_train = np.concatenate((X_train, X_test))
         y_train = np.concatenate((y_train, y_test), axis=None)

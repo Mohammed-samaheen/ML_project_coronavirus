@@ -26,7 +26,7 @@ print(OKBLUE+'Multi-Layer Perception -MLP-\n'+
 print("\n\nConfirmed in Spain by: Multi-Layer Perceptron Regressor (MLP Regressor) Model.")
 
 # MLP Regressor Model to predict the Confirmed in Spain
-mlpSpainConfirmed = MLP_Regression(data['spainCon'][0], data['spainCon'][0], allDetails=False,itr_num=5000)
+mlpSpainConfirmed = MLP_Regression(data['spainCon'][0], data['spainCon'][0], allDetails=False,itr_num=10000)
 mlpConfirmedPrediction = mlpSpainConfirmed.best_predect((data['spainCon'][1][0]['testDate']).values.reshape(-1, 1),
                                                         plot=True)
 

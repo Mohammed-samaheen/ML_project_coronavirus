@@ -1,4 +1,5 @@
 # @author:Mohammed Khaled Samaheen
+# ID : 171004
 # This file contains the Linear Regression Class model
 
 import pandas as pd
@@ -10,6 +11,38 @@ from sklearn.linear_model import LinearRegression
 
 
 class Linear_Regression:
+    """
+        A class used to make prediction to spain data using Linear Regression Class model
+
+        ...
+
+        Attributes
+        ----------
+        split_data : tuple
+            an tuple of date from the corona started in spain data and separated to train and test
+        plot: bool
+            default is True to show the all plots of thise class
+        predictions : numpy array
+            an numpy array of the result of test data predictions -log value-
+         lm : LinearRegression
+            sklearn linear regression model
+        MAE : float
+            a mean absolute error between test and predictions value
+        MSE : float
+            a mean squared error between test and predictions value
+
+        Methods
+        -------
+        predict(self, value):
+            predict one value -Future value- in expectational
+        carve(self):
+            plot the carve of the result after fit the data
+        distribution(self):
+            plot the univariate distribution for the data
+        linear_verification(self, x, y, title):
+            calculate the  mean absolute error(MAE) ane mean squared error(MSE) between the
+            verification data and predicted value
+        """
     def __init__(self, split_data, plot=True):
         self.split_data = split_data
 
@@ -65,6 +98,24 @@ class Linear_Regression:
 
 
 class Linear_summary:
+    """
+            A class used to summarized the linear regression model between the world data and spain
+
+            ...
+
+            Attributes
+            ----------
+            data : tuple
+                an tuple of date from the corona started in spain and world
+
+            Methods
+            -------
+            confirmed_summary(self, Confirmed, wConfirmed):
+                plot the confirmed of the corona in the world and spain curve in the same figure
+            deaths_summary(self, Deaths, wDeaths):
+                plot the deaths of the corona in the world and spain curve in the same figure
+
+            """
     def __init__(self, data):
         self.data = data
 
